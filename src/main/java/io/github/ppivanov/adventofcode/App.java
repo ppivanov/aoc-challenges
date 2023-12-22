@@ -1,9 +1,17 @@
 package io.github.ppivanov.adventofcode;
 
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
 import org.apache.commons.lang3.StringUtils;
+
+import io.github.ppivanov.adventofcode.dayone.DayOne;
+import io.github.ppivanov.adventofcode.daytwo.DayTwo;
 
 // Advent of Code 2023
 public class App {
@@ -13,26 +21,34 @@ public class App {
 		boolean exit = false;
 		while (!exit) {
 			int daySelection = 0;
+			int part = 0;
 			try {
 				System.out.println(getOption(""));
 				System.out.println(getOption("Exit 0"));
-				for (int i = 1; i <= days; i++) {
-					System.out.println(getOption("Day " + i));
+				for (int d = 1; d <= days; d++) {
+					for (int e = 1; e <= 2; e++) {
+						System.out.println(getOption("Day " + d + " part " + e));
+					}
 				}
 				System.out.println(getOption(""));
 				System.out.print("Select a day: ");
 				daySelection = input(scanner);
+				System.out.print("Which part: ");
+				part = input(scanner);
 				System.out.println();
+				if (part > 2) {
+					daySelection = 0; //
+				}
 
 				switch (daySelection) {
 				case 0:
 					exit = true;
 					break;
 				case 1:
-					DayOne.Run();
+					DayOne.Run(part);
 					continue;
 				case 2:
-					DayTwo.Run();
+					DayTwo.Run(part);
 					continue;
 				default:
 					System.out.println("Invalid input! Please enter a number.");
@@ -59,7 +75,13 @@ public class App {
 			scanner.nextLine();
 			return -1;
 		}
+	}
 
+	public static BufferedReader readFile(String filename) throws FileNotFoundException {
+		InputStream ifs = new FileInputStream(filename);
+		BufferedReader reader = new BufferedReader(new InputStreamReader(ifs));
+
+		return reader;
 	}
 
 	private static String getOption(final String text) {

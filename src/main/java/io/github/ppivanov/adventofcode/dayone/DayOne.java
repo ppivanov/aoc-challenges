@@ -1,19 +1,22 @@
-package io.github.ppivanov.adventofcode;
+package io.github.ppivanov.adventofcode.dayone;
 
 import java.io.BufferedReader;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 
 import org.apache.commons.lang3.tuple.ImmutablePair;
 
+import io.github.ppivanov.adventofcode.App;
+
 public class DayOne {
-	public static void Run() throws FileNotFoundException, IOException {
-		String file = "src/main/resources/day1.txt";
-		InputStream ifs = new FileInputStream(file);
-		BufferedReader reader = new BufferedReader(new InputStreamReader(ifs));
+	public static void Run(int part) throws FileNotFoundException, IOException {
+		System.out.println("Result...");
+		System.out.println(GetResult(part));
+	}
+
+	public static int GetResult(int part) throws FileNotFoundException, IOException {
+		String filename = (part == 1) ? "day1" : "day1p2";
+		BufferedReader reader = App.readFile("src/main/resources/" + filename + ".txt");
 		String currentLine = "";
 		int left = -1;
 		int right = -1;
@@ -25,9 +28,11 @@ public class DayOne {
 				break;
 			}
 
-			ImmutablePair<Integer, Integer> a = getFirstAndLastInt(currentLine);
-			left = a.getLeft();
-			right = a.getRight();
+			ImmutablePair<Integer, Integer> pair = (part == 1) ? getFirstAndLastInt(currentLine)
+					: DayOnePartTwo.getFirstAndLastInt(currentLine);
+
+			left = pair.getLeft();
+			right = pair.getRight();
 
 			right = right != -1 ? right : left; // if last is not set, default to first
 			out += (left * 10 + right);
@@ -38,8 +43,7 @@ public class DayOne {
 
 		reader.close();
 
-		System.out.println("Result...");
-		System.out.println(out);
+		return out;
 	}
 
 	public static int getInt(char ch) {
