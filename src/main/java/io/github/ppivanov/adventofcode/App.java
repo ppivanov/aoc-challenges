@@ -1,23 +1,28 @@
 package io.github.ppivanov.adventofcode;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.nio.file.Files;
 import java.util.InputMismatchException;
+import java.util.List;
 import java.util.Scanner;
 
 import org.apache.commons.lang3.StringUtils;
 
 import io.github.ppivanov.adventofcode.dayone.DayOne;
+import io.github.ppivanov.adventofcode.daythree.DayThree;
 import io.github.ppivanov.adventofcode.daytwo.DayTwo;
 
 // Advent of Code 2023
 public class App {
 	public static void main(String[] args) {
 		Scanner scanner = new Scanner(System.in);
-		final int days = 2;
+		final int days = 3;
 		boolean exit = false;
 		while (!exit) {
 			int daySelection = 0;
@@ -49,6 +54,9 @@ public class App {
 					continue;
 				case 2:
 					DayTwo.Run(part);
+					continue;
+				case 3:
+					DayThree.Run(part);
 					continue;
 				default:
 					System.out.println("Invalid input! Please enter a number.");
@@ -82,6 +90,12 @@ public class App {
 		BufferedReader reader = new BufferedReader(new InputStreamReader(ifs));
 
 		return reader;
+	}
+
+	public static List<String> readAllLines(String filename) throws IOException, FileNotFoundException {
+		List<String> list = Files.readAllLines(new File(filename).toPath());
+
+		return list;
 	}
 
 	private static String getOption(final String text) {
